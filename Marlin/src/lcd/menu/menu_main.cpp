@@ -98,6 +98,42 @@ void menu_main() {
   START_MENU();
   BACK_ITEM(MSG_INFO_SCREEN);
 
+  #if BOTH(HAS_ENCODER_WHEEL, SDSUPPORT)
+
+    if (!busy) {
+
+      // *** IF THIS SECTION IS CHANGED, REPRODUCE ABOVE ***
+
+      //
+      // Autostart
+      //
+      #if ENABLED(MENU_ADDAUTOSTART)
+        ACTION_ITEM(MSG_AUTOSTART, card.beginautostart);
+      #endif
+
+      if (card_detected) {
+        if (!card_open) {
+          MENU_ITEM(gcode,
+            #if PIN_EXISTS(SD_DETECT)
+              MSG_CHANGE_MEDIA, M21_STR
+            #else
+              MSG_RELEASE_MEDIA, PSTR("M22")
+            #endif
+          );
+          SUBMENU(MSG_MEDIA_MENU, menu_media);
+        }
+      }
+      else {
+        #if PIN_EXISTS(SD_DETECT)
+          ACTION_ITEM(MSG_NO_MEDIA, nullptr);
+        #else
+          GCODES_ITEM(MSG_ATTACH_MEDIA, M21_STR);
+        #endif
+      }
+    }
+
+  #endif // HAS_ENCODER_WHEEL && SDSUPPORT¨
+  
   if (busy) {
     #if MACHINE_CAN_PAUSE
       ACTION_ITEM(MSG_PAUSE_PRINT, ui.pause_print);
@@ -217,42 +253,6 @@ void menu_main() {
     else
       GCODES_ITEM(MSG_SWITCH_PS_ON, PSTR("M80"));
   #endif
-
-  #if BOTH(HAS_ENCODER_WHEEL, SDSUPPORT)
-
-    if (!busy) {
-
-      // *** IF THIS SECTION IS CHANGED, REPRODUCE ABOVE ***
-
-      //
-      // Autostart
-      //
-      #if ENABLED(MENU_ADDAUTOSTART)
-        ACTION_ITEM(MSG_AUTOSTART, card.beginautostart);
-      #endif
-
-      if (card_detected) {
-        if (!card_open) {
-          MENU_ITEM(gcode,
-            #if PIN_EXISTS(SD_DETECT)
-              MSG_CHANGE_MEDIA, M21_STR
-            #else
-              MSG_RELEASE_MEDIA, PSTR("M22")
-            #endif
-          );
-          SUBMENU(MSG_MEDIA_MENU, menu_media);
-        }
-      }
-      else {
-        #if PIN_EXISTS(SD_DETECT)
-          ACTION_ITEM(MSG_NO_MEDIA, nullptr);
-        #else
-          GCODES_ITEM(MSG_ATTACH_MEDIA, M21_STR);
-        #endif
-      }
-    }
-
-  #endif // HAS_ENCODER_WHEEL && SDSUPPORT
 
   #if HAS_SERVICE_INTERVALS
     static auto _service_reset = [](const int index) {
