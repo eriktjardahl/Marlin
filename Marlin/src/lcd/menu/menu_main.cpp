@@ -113,13 +113,13 @@ void menu_main() {
 
       if (card_detected) {
         if (!card_open) {
-          MENU_ITEM(gcode,
+          /*MENU_ITEM(gcode,
             #if PIN_EXISTS(SD_DETECT)
               MSG_CHANGE_MEDIA, M21_STR
             #else
               MSG_RELEASE_MEDIA, PSTR("M22")
             #endif
-          );
+          );*/
           SUBMENU(MSG_MEDIA_MENU, menu_media);
         }
       }
