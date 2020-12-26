@@ -666,7 +666,7 @@
 
   #if ENABLED(DELTA_AUTO_CALIBRATION)
     // set the default number of probe points : n*n (1 -> 7)
-    #define DELTA_CALIBRATION_DEFAULT_POINTS 4
+    #define DELTA_CALIBRATION_DEFAULT_POINTS 4.0
   #endif
 
   #if EITHER(DELTA_AUTO_CALIBRATION, DELTA_CALIBRATION_MENU)
@@ -676,13 +676,13 @@
 
   #if ENABLED(ANYCUBIC_KOSSEL_PLUS)
     // Print surface diameter/2 minus unreachable space (avoid collisions with vertical towers).
-    #define DELTA_PRINTABLE_RADIUS 116.0  // (mm)
+    #define DELTA_PRINTABLE_RADIUS 119.0  // (mm)
     // Center-to-center distance of the holes in the diagonal push rods.
-    #define DELTA_DIAGONAL_ROD 265        // (mm)
+    #define DELTA_DIAGONAL_ROD 264.5      // (mm)
       // Horizontal offset from middle of printer to smooth rod center.
-    #define DELTA_SMOOTH_ROD_OFFSET 186   // (mm)
+    #define DELTA_SMOOTH_ROD_OFFSET 186.0   // (mm)
     // Horizontal offset of the universal joints on the end effector.
-    #define DELTA_EFFECTOR_OFFSET 31      // (mm)
+    #define DELTA_EFFECTOR_OFFSET 31.0      // (mm)
     // Horizontal offset of the universal joints on the carriages.
     #define DELTA_CARRIAGE_OFFSET 20.6    // (mm)
     // Horizontal distance bridged by diagonal push rods when effector is centered.
@@ -1088,20 +1088,20 @@
  *
  * Specify a Probe position as { X, Y, Z }
  */
-#define NOZZLE_TO_PROBE_OFFSET { -10, -8, -38.8 }
+#define NOZZLE_TO_PROBE_OFFSET { -10.86, -6.27, -38.8 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define PROBING_MARGIN 30
+#define PROBING_MARGIN 2
 
 // X and Y axis travel speed (mm/m) between probes
 #define XY_PROBE_SPEED 50*60
 
 // Feedrate (mm/m) for the first approach when double-probing (MULTIPLE_PROBING == 2)
-#define Z_PROBE_SPEED_FAST HOMING_FEEDRATE_Z/2
+#define Z_PROBE_SPEED_FAST HOMING_FEEDRATE_Z
 
 // Feedrate (mm/m) for the "accurate" probe of each point
-#define Z_PROBE_SPEED_SLOW (Z_PROBE_SPEED_FAST / 4)
+#define Z_PROBE_SPEED_SLOW (Z_PROBE_SPEED_FAST / 6)
 
 /**
  * Multiple Probing
@@ -1130,15 +1130,15 @@
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
 #define Z_CLEARANCE_DEPLOY_PROBE    0 // Z Clearance for Deploy/Stow
-#define Z_CLEARANCE_BETWEEN_PROBES  5 // Z Clearance between probe points
-#define Z_CLEARANCE_MULTI_PROBE     5 // Z Clearance between multiple probes
-#define Z_AFTER_PROBING            50 // Z position after probing is done
+#define Z_CLEARANCE_BETWEEN_PROBES  2 // Z Clearance between probe points
+#define Z_CLEARANCE_MULTI_PROBE     2 // Z Clearance between multiple probes
+#define Z_AFTER_PROBING             150 // Z position after probing is done
 
 #define Z_PROBE_LOW_POINT          -5 // Farthest distance below the trigger-point to go before stopping
 
 // For M851 give a range for adjusting the Z probe offset
 #define Z_PROBE_OFFSET_RANGE_MIN -50
-#define Z_PROBE_OFFSET_RANGE_MAX 0
+#define Z_PROBE_OFFSET_RANGE_MAX  0
 
 // Enable the M48 repeatability test to test probe accuracy
 //#define Z_MIN_PROBE_REPEATABILITY_TEST
@@ -1335,8 +1335,8 @@
  */
 //#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
-#define AUTO_BED_LEVELING_BILINEAR
-//#define AUTO_BED_LEVELING_UBL
+//#define AUTO_BED_LEVELING_BILINEAR
+#define AUTO_BED_LEVELING_UBL
 //#define MESH_BED_LEVELING
 
 /**
@@ -1374,7 +1374,7 @@
     #define MESH_TEST_HOTEND_TEMP    205  // (°C) Default nozzle temperature for the G26 Mesh Validation Tool.
     #define MESH_TEST_BED_TEMP        60  // (°C) Default bed temperature for the G26 Mesh Validation Tool.
     #define G26_XY_FEEDRATE           20  // (mm/s) Feedrate for XY Moves for the G26 Mesh Validation Tool.
-    #define G26_RETRACT_MULTIPLIER   1.0  // G26 Q (retraction) used by default between mesh test elements.
+    #define G26_RETRACT_MULTIPLIER   2.0  // G26 Q (retraction) used by default between mesh test elements.
   #endif
 
 #endif
@@ -1414,8 +1414,8 @@
 
   //#define MESH_EDIT_GFX_OVERLAY   // Display a graphics overlay while editing the mesh
 
-  #define MESH_INSET 1              // Set Mesh bounds as an inset region of the bed
-  #define GRID_MAX_POINTS_X 5      // Don't use more than 15 points per axis, implementation limited.
+  #define MESH_INSET 2              // Set Mesh bounds as an inset region of the bed
+  #define GRID_MAX_POINTS_X 9      // Don't use more than 15 points per axis, implementation limited.
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   #define UBL_MESH_EDIT_MOVES_Z     // Sophisticated users prefer no movement of nozzle
@@ -1633,7 +1633,7 @@
   //#define NOZZLE_PARK_Y_ONLY          // Y move only is required to park
   #define NOZZLE_PARK_Z_RAISE_MIN   2   // (mm) Always raise Z by at least this distance
   #define NOZZLE_PARK_XY_FEEDRATE 100   // (mm/s) X and Y axes feedrate (also used for delta Z axis)
-  #define NOZZLE_PARK_Z_FEEDRATE NOZZLE_PARK_XY_FEEDRATE   // (mm/s) Z axis feedrate (not used for delta printers)
+  #define NOZZLE_PARK_Z_FEEDRATE NOZZLE_PARK_XY_FEEDRATE // (mm/s) Z axis feedrate (not used for delta printers)
 #endif
 
 /**
